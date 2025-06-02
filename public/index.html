@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VerseHaven</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+  <body>
+    <div class="app-wrapper">
+      <!-- Navigation Header -->
+      <header class="primary-header">
+        <div class="header-container">
+          <div class="brand-identity" href="index.html">
+            <div class="brand-icon">
+              <i class="fas fa-book-reader"></i>
+            </div>
+            <h1 class="brand-name">VerseHaven</h1>
+          </div>
+
+          <nav class="primary-navigation">
+            <ul class="nav-links">
+              <li>
+                <a
+                  href="index.html#discovery-view"
+                  class="nav-link active"
+                  data-view="discovery"
+                >
+                  <i class="fas fa-compass"></i>
+                  <span>Discover</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="index.html#library-view"
+                  class="nav-link"
+                  data-view="library"
+                >
+                  <i class="fas fa-bookmark"></i>
+                  <span>My Collection</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="index.html#trending-view"
+                  class="nav-link"
+                  data-view="trending"
+                >
+                  <i class="fas fa-fire"></i>
+                  <span>Trending</span>
+                </a>
+              </li>
+              <li id="dashboardLink" style="display: none">
+                <a href="dashboard.html" class="nav-link">
+                  <i class="fas fa-tachometer-alt"></i>
+                  <span>Dashboard</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+          <div class="user-profile">
+            <button class="profile-trigger" id="userProfileBtn">
+              <img
+                id="userAvatar"
+                src="https://via.placeholder.com/32"
+                alt="User Avatar"
+                class="user-avatar"
+              />
+              <span id="userName" class="profile-name">Reader</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="profile-dropdown hidden">
+              <ul>
+                <li>
+                  <a href="#"><i class="fas fa-user"></i> Profile</a>
+                </li>
+                <li>
+                  <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                </li>
+                <li>
+                  <a href="#" id="signOutBtn"
+                    ><i class="fas fa-sign-out-alt"></i> Sign Out</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Hero Search Section -->
+      <section class="hero-discovery-zone" id="main-header">
+        <div class="hero-content">
+          <div class="hero-text">
+            <h2 class="hero-title">
+              Discover Your Next <span class="highlight">Great Read</span>
+            </h2>
+            <p class="hero-subtitle">
+              Explore millions of books from every genre imaginable
+            </p>
+          </div>
+
+          <div class="search-experience">
+            <div class="search-input-container">
+              <input
+                type="text"
+                id="book-query-input"
+                class="primary-search-input"
+                placeholder="Search books, authors, or genres..."
+                autocomplete="off"
+                spellcheck="false"
+              />
+              <button class="search-action-btn" id="discover-books-btn">
+                <span>Search</span>
+              </button>
+            </div>
+
+            <div class="search-suggestions">
+              <span class="suggestion-label">Popular searches:</span>
+              <div class="suggestion-tags">
+                <button class="suggestion-tag" data-query="bestsellers">
+                  Bestsellers
+                </button>
+                <button class="suggestion-tag" data-query="science fiction">
+                  Sci-Fi
+                </button>
+                <button class="suggestion-tag" data-query="romance novels">
+                  Romance
+                </button>
+                <button class="suggestion-tag" data-query="mystery thriller">
+                  Mystery
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Content Area -->
+      <main class="content-main">
+        <!-- Book Discovery Section -->
+        <section class="book-discovery-section" id="discovery-view">
+          <div class="section-container">
+            <div class="discovery-controls">
+              <div class="view-options">
+                <h3 class="section-heading">Book Results</h3>
+              </div>
+
+              <div class="control-panel">
+                <div class="genre-filters">
+                  <button class="filter-chip active" data-genre="all">
+                    All Genres
+                  </button>
+                  <button class="filter-chip" data-genre="fiction">
+                    Fiction
+                  </button>
+                  <button class="filter-chip" data-genre="non-fiction">
+                    Non-Fiction
+                  </button>
+                  <button class="filter-chip" data-genre="romance">
+                    Romance
+                  </button>
+                  <button class="filter-chip" data-genre="mystery">
+                    Mystery
+                  </button>
+                  <button class="filter-chip" data-genre="fantasy">
+                    Fantasy
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Book Results Grid -->
+            <div class="book-results-container">
+              <div class="book-carousel-container">
+                <div class="carousel-header">
+                  <h3 class="carousel-title">Search Results</h3>
+                  <div class="carousel-controls">
+                    <button class="carousel-nav-btn" id="prev-btn">
+                      <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-nav-btn" id="next-btn">
+                      <i class="fas fa-chevron-right"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="book-carousel">
+                  <div class="carousel-track" id="book-results-grid">
+                    <!-- Dynamic book cards will be inserted here -->
+                  </div>
+                </div>
+                <div class="carousel-indicators" id="carousel-indicators">
+                  <!-- Dynamic indicators will be inserted here -->
+                </div>
+              </div>
+
+              <!-- Load More Section -->
+              <div
+                class="load-more-section"
+                id="load-more-container"
+                style="display: none"
+              >
+                <button class="load-more-btn" id="load-more-books">
+                  <i class="fas fa-plus-circle"></i>
+                  <span>Load More Books</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Personal Library Section -->
+      <section class="personal-library-section hidden" id="library-view">
+        <div class="section-container">
+          <div class="library-header">
+            <div class="library-title">
+              <h3 class="section-heading">My Personal Library</h3>
+              <p class="library-description">
+                Your curated collection of favorite books
+              </p>
+            </div>
+
+            <div class="library-stats">
+              <div class="stat-item">
+                <span class="stat-number" id="saved-count">0</span>
+                <span class="stat-label">Saved Books</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number" id="reading-count">0</span>
+                <span class="stat-label">Currently Reading</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="library-content">
+            <div class="library-grid" id="personal-library-grid">
+              <div class="empty-library-state" id="empty-library-state">
+                <div class="empty-icon">
+                  <i class="fas fa-book-heart"></i>
+                </div>
+                <h4 class="empty-title">Your Library Awaits</h4>
+                <p class="empty-message">
+                  Start building your personal collection by saving books you
+                  love
+                </p>
+                <a
+                  class="explore-btn"
+                  data-action="start-exploring"
+                  href="login.html"
+                >
+                  <i class="fas fa-compass"></i>
+                  <span>Start Exploring</span>
+                </a>
+              </div>
+              <div
+                class="library-books"
+                id="library-books"
+                style="display: none"
+              >
+                <!-- User's books will be displayed here -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Trending Section -->
+      <section class="trending-section hidden" id="trending-view">
+        <div class="section-container">
+          <div class="trending-header">
+            <h3 class="section-heading">Trending Now</h3>
+            <p class="trending-description">
+              Popular books readers are discovering
+            </p>
+          </div>
+
+          <div class="trending-grid" id="trending-books-grid">
+            <!-- Trending books will be populated here -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="site-footer">
+        <div class="footer-content">
+          <div class="footer-main">
+            <div class="footer-section">
+              <div class="footer-brand">
+                <h2 class="footer-brand-name">VerseHaven</h2>
+              </div>
+              <p class="footer-description">
+                Discover your next favorite book with our intelligent
+                recommendation system.
+              </p>
+            </div>
+
+            <div class="footer-section">
+              <h3>Discover</h3>
+              <ul>
+                <li><a href="#">New Releases</a></li>
+                <li><a href="#">Best Sellers</a></li>
+                <li><a href="#">Genres</a></li>
+                <li><a href="#">Authors</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-section">
+              <h3>Library</h3>
+              <ul>
+                <li><a href="#">My Books</a></li>
+                <li><a href="#">Reading Lists</a></li>
+                <li><a href="#">Reviews</a></li>
+                <li><a href="#">Bookmarks</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-section">
+              <h3>Support</h3>
+              <ul>
+                <li><a href="#">Help Center</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="footer-bottom">
+            <div class="footer-copyright">
+              © 2024 BookVerse. All rights reserved.
+            </div>
+            <ul class="footer-links">
+              <li><a href="#">Privacy</a></li>
+              <li><a href="#">Terms</a></li>
+              <li><a href="#">Cookies</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+      <!-- Notification Toast Container -->
+      <div class="notification-container" id="notification-area"></div>
+
+      <!-- Loading Overlay -->
+      <div class="loading-overlay hidden" id="global-loading">
+        <div class="loading-content">
+          <div class="loading-animation">
+            <div class="book-loading">
+              <div class="book-page"></div>
+              <div class="book-page"></div>
+              <div class="book-page"></div>
+            </div>
+          </div>
+          <p class="loading-text">Discovering amazing books...</p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>

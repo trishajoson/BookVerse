@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - VerseHaven</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  
+  </head>
+  <body>
+    <header class="primary-header">
+      <div class="header-container">
+        <div class="brand-identity">
+          <div class="brand-icon">
+            <i class="fas fa-book-reader"></i>
+          </div>
+          <h1 class="brand-name">VerseHaven</h1>
+        </div>
+        <nav class="primary-navigation">
+          <ul class="nav-links">
+            <li>
+              <a
+                href="index.html#discovery-view"
+                class="nav-link"
+                data-view="discovery"
+              >
+                <i class="fas fa-compass"></i>
+                <span>Discover</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="index.html#library-view"
+                class="nav-link"
+                data-view="library"
+              >
+                <i class="fas fa-bookmark"></i>
+                <span>My Collection</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="index.html#trending-view"
+                class="nav-link"
+                data-view="trending"
+              >
+                <i class="fas fa-fire"></i>
+                <span>Trending</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div class="user-profile">
+          <button class="profile-trigger" id="userProfileBtn">
+            <img
+              id="userAvatar"
+              src="https://via.placeholder.com/32"
+              alt="User Avatar"
+              class="user-avatar"
+            />
+            <span id="userName" class="profile-name">Loading...</span>
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="profile-dropdown hidden">
+            <ul>
+              <li>
+                <a href="javascript:void(0)" id="signOutBtn"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="dashboard-container">
+      <aside class="sidebar">
+        <div class="sidebar-section">
+          <h3>Categories</h3>
+          <ul class="category-list">
+            <li class="active" data-category="all">All Books</li>
+            <li data-category="fiction">Fiction</li>
+            <li data-category="non-fiction">Non-Fiction</li>
+            <li data-category="science">Science</li>
+            <li data-category="history">History</li>
+          </ul>
+        </div>
+        <div class="sidebar-section">
+          <h3>Reading List</h3>
+          <ul id="readingList" class="reading-list">
+            <!-- Reading list items will be added here -->
+          </ul>
+        </div>
+        <div class="sidebar-section">
+          <h3>Saved Books</h3>
+          <ul id="savedBooksList" class="saved-books-list">
+            <!-- Saved books will be added here -->
+          </ul>
+        </div>
+        <div class="sidebar-section">
+          <h3>Completed Books</h3>
+          <ul id="completedBooksList" class="completed-books-list">
+            <!-- Completed books will be added here -->
+          </ul>
+        </div>
+        <div class="sidebar-section">
+          <h3>My Books</h3>
+          <ul class="my-books-list">
+            <li data-status="saved">
+              <i class="fas fa-bookmark"></i>
+              Saved Books (<span id="saved-count">0</span>)
+            </li>
+            <li data-status="reading">
+              <i class="fas fa-book-reader"></i>
+              Reading (<span id="reading-count">0</span>)
+            </li>
+            <li data-status="completed">
+              <i class="fas fa-check-circle"></i>
+              Completed (<span id="completed-count">0</span>)
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <div class="content-header">
+          <div class="search-experience">
+            <div class="search-input-container">
+              <input
+                type="text"
+                id="searchInput"
+                class="primary-search-input"
+                placeholder="Search for books, authors.."
+              />
+              <button id="searchBtn" class="search-action-btn">
+               
+                Search
+              </button>
+            </div>
+          </div>
+          <div class="view-toggle">
+            <button id="gridViewBtn" class="active">
+              <i class="fas fa-th-large"></i>
+            </button>
+            <button id="listViewBtn">
+              <i class="fas fa-list"></i>
+            </button>
+          </div>
+        </div>
+
+        <div id="booksContainer" class="books-grid">
+          <!-- Loading state -->
+          <div class="loading-state hidden" id="loadingState">
+            <div class="loading-spinner"></div>
+            <p>Loading books...</p>
+          </div>
+
+          <!-- Empty state -->
+          <div class="empty-state hidden" id="emptyState">
+            <div class="empty-icon">
+              <i class="fas fa-book-open"></i>
+            </div>
+            <h3>No books found</h3>
+            <p>Start exploring to add books to your library</p>
+            <button
+              class="explore-btn"
+              onclick="window.location.href='index.html'"
+            >
+              <i class="fas fa-search"></i>
+              Explore Books
+            </button>
+          </div>
+
+          <!-- Book Carousel -->
+          <div class="book-carousel-container">
+            <div class="carousel-header">
+              <h3 class="carousel-title">Your Library</h3>
+              <div class="carousel-controls">
+                <button class="carousel-nav-btn" id="prev-btn">
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-nav-btn" id="next-btn">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+            <div class="book-carousel">
+              <div class="carousel-track" id="book-results-grid">
+                <!-- Dynamic book cards will be inserted here -->
+              </div>
+            </div>
+            <div class="carousel-indicators" id="carousel-indicators">
+              <!-- Dynamic indicators will be inserted here -->
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Toast notification container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Add progress modal HTML -->
+    <div id="progressModal" class="modal hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Update Reading Progress</h3>
+          <button class="close-modal" onclick="closeProgressModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="progress-input-container">
+            <input
+              type="range"
+              id="progressSlider"
+              min="0"
+              max="100"
+              value="0"
+              class="progress-slider"
+            />
+            <div class="progress-value"><span id="progressValue">0</span>%</div>
+          </div>
+          <div class="progress-actions">
+            <button class="action-btn" onclick="updateReadingProgress()">
+              <i class="fas fa-save"></i>
+              Save Progress
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add completion modal HTML -->
+    <div id="completionModal" class="modal hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Book Completed!</h3>
+          <button class="close-modal" onclick="closeCompletionModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="completion-form">
+            <div class="form-group">
+              <label for="bookRating">Rating (1-5 stars)</label>
+              <div class="rating-stars">
+                <i class="fas fa-star" data-rating="1"></i>
+                <i class="fas fa-star" data-rating="2"></i>
+                <i class="fas fa-star" data-rating="3"></i>
+                <i class="fas fa-star" data-rating="4"></i>
+                <i class="fas fa-star" data-rating="5"></i>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="bookReview">Your Review</label>
+              <textarea
+                id="bookReview"
+                rows="4"
+                placeholder="Share your thoughts about the book..."
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label for="bookTags">Tags (comma separated)</label>
+              <input
+                type="text"
+                id="bookTags"
+                placeholder="e.g., inspiring, challenging, educational"
+              />
+            </div>
+            <div class="completion-actions">
+              <button class="action-btn" onclick="saveBookCompletion()">
+                <i class="fas fa-check"></i>
+                Complete Book
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/firebase.js"></script>
+    <script src="js/dashboard.js"></script>
+    
+  </body>
+</html>
