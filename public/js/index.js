@@ -245,50 +245,50 @@ document.addEventListener("DOMContentLoaded", function () {
       // Create HTML for each section
       let libraryHTML = "";
 
-      if (readingBooks.length > 0) {
-        libraryHTML += `
-                            <div class="library-section">
-                                <h3>Currently Reading</h3>
-                                <div class="books-grid">
-                                    ${readingBooks
-                                      .map((book) =>
-                                        createBookCard(book, "reading")
-                                      )
-                                      .join("")}
-                                </div>
-                            </div>
-                        `;
-      }
+if (readingBooks.length > 0) {
+    libraryHTML += `
+        <div class="library-section">
+            <h3>Currently Reading</h3>
+            <div class="books-grid">
+                ${readingBooks
+                    .map((book) =>
+                        createCollectionBookCard(book, "reading")
+                    )
+                    .join("")}
+            </div>
+        </div>
+    `;
+}
 
-      if (savedBooks.length > 0) {
-        libraryHTML += `
-                            <div class="library-section">
-                                <h3>Saved Books</h3>
-                                <div class="books-grid">
-                                    ${savedBooks
-                                      .map((book) =>
-                                        createBookCard(book, "saved")
-                                      )
-                                      .join("")}
-                                </div>
-                            </div>
-                        `;
-      }
+if (savedBooks.length > 0) {
+    libraryHTML += `
+        <div class="library-section">
+            <h3>Saved Books</h3>
+            <div class="books-grid">
+                ${savedBooks
+                    .map((book) =>
+                        createCollectionBookCard(book, "saved")
+                    )
+                    .join("")}
+            </div>
+        </div>
+    `;
+}
 
-      if (completedBooks.length > 0) {
-        libraryHTML += `
-                            <div class="library-section">
-                                <h3>Completed Books</h3>
-                                <div class="books-grid">
-                                    ${completedBooks
-                                      .map((book) =>
-                                        createBookCard(book, "completed")
-                                      )
-                                      .join("")}
-                                </div>
-                            </div>
-                        `;
-      }
+if (completedBooks.length > 0) {
+    libraryHTML += `
+        <div class="library-section">
+            <h3>Completed Books</h3>
+            <div class="books-grid">
+                ${completedBooks
+                    .map((book) =>
+                        createCollectionBookCard(book, "completed")
+                    )
+                    .join("")}
+            </div>
+        </div>
+    `;
+}
 
       libraryBooks.innerHTML = libraryHTML;
     } catch (error) {
@@ -365,4 +365,72 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                 `;
   }
+  // Function to create book card HTML for collection view (no buttons)
+function createCollectionBookCard(book, status) {
+    const progress = book.readingProgress || 0;
+    const rating = book.rating || 0;
+
+    return `
+        <div class="book-card">
+            <div class="book-cover-container">
+                <img src="${book.cover}" alt="${book.title}" class="book-cover">
+            </div>
+            <div class="book-info">
+                <h3 class="book-title">${book.title}</h3>
+                <p class="book-author">${book.authors.join(", ")}</p>
+                ${
+                    status === "reading" || status === "saved"
+                        ? `
+                        <div class="reading-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${progress}%"></div>
+                            </div>
+                            <span class="progress-text">${progress}%</span>
+                        </div>
+                    `
+                        : ""
+                }
+                ${
+                    status === "completed"
+                        ? `
+                        <div class="book-rating">
+                            <div class="rating-stars">
+                                ${Array.from(
+                                    { length: 5 },
+                                    (_, i) =>
+                                        `<i class="fas fa-star ${
+                                            i < rating ? "active" : ""
+                                        }"></i>`
+                                ).join("")}
+                            </div>
+                        </div>
+                    `
+                        : ""
+                }
+            </div>
+        </div>
+    `;
+}
+
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Footer navigation handlers
+  const footerNavLinks = document.querySelectorAll('.footer-section a[href^="index.html#"]');
+  
+  footerNavLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = this.getAttribute('href').split('#')[1];
+      
+      // Call your existing navigation functions
+      if (target === 'discovery-view') {
+        showDiscoveryView();
+      } else if (target === 'library-view') {
+        showLibraryView();
+      } else if (target === 'trending-view') {
+        showTrendingView();
+      }
+    });
+  });
 });
