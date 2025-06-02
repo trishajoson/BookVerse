@@ -17,7 +17,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-    
+
     <script src="js/firebase.js"></script>
     <script src="js/login.js"></script>
   </head>
@@ -33,19 +33,31 @@
         <nav class="primary-navigation">
           <ul class="nav-links">
             <li>
-              <a href="index.html#discovery-view" class="nav-link" data-view="discovery">
+              <a
+                href="index.html#discovery-view"
+                class="nav-link"
+                data-view="discovery"
+              >
                 <i class="fas fa-compass"></i>
                 <span>Discover</span>
               </a>
             </li>
             <li>
-              <a href="index.html#library-view" class="nav-link" data-view="library">
+              <a
+                href="index.html#library-view"
+                class="nav-link"
+                data-view="library"
+              >
                 <i class="fas fa-bookmark"></i>
                 <span>My Collection</span>
               </a>
             </li>
             <li>
-              <a href="index.html#trending-view" class="nav-link" data-view="trending">
+              <a
+                href="index.html#trending-view"
+                class="nav-link"
+                data-view="trending"
+              >
                 <i class="fas fa-fire"></i>
                 <span>Trending</span>
               </a>
@@ -109,7 +121,11 @@
               <label for="password">Password</label>
               <input type="password" id="password" required />
             </div>
-            <div class="form-group" id="confirmPasswordGroup" style="display: none;">
+            <div
+              class="form-group"
+              id="confirmPasswordGroup"
+              style="display: none"
+            >
               <label for="confirmPassword">Confirm Password</label>
               <input type="password" id="confirmPassword" required />
             </div>
@@ -123,12 +139,14 @@
         </div>
       </div>
     </div>
-    <footer>
-      <div class="footer-bottom">
-            <div class="footer-copyright">
-              © 2024 BookVerse. All rights reserved.
-            </div>
+    <footer class="site-footer">
+      <div class="footer-content">
+        <div class="footer-bottom">
+          <div class="footer-copyright">
+            © 2024 BookVerse. All rights reserved.
           </div>
+        </div>
+      </div>
     </footer>
   </body>
 </html>
